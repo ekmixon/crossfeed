@@ -14,7 +14,7 @@ class ExportFilePipeline:
 
     def process_item(self, item, spider=None):
         if item["url"] in self.urls_seen:
-            raise DropItem("Duplicate item found with url: %s" % item["url"])
+            raise DropItem(f'Duplicate item found with url: {item["url"]}')
         self.urls_seen.add(item["url"])
-        self.print("database_output: " + json.dumps(item))
+        self.print(f"database_output: {json.dumps(item)}")
         return item

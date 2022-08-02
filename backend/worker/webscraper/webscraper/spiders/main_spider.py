@@ -28,10 +28,12 @@ class MainSpider(CrawlSpider):
 
         headers = []
         for name, values in response.headers.items():
-            for value in values:
-                headers.append({"name": name.decode(), "value": value.decode()})
+            headers.extend(
+                {"name": name.decode(), "value": value.decode()}
+                for value in values
+            )
 
-        item = dict(
+        yield dict(
             status=response.status,
             url=response.url,
             domain_name=urlparse(response.url).netloc,
@@ -39,4 +41,3 @@ class MainSpider(CrawlSpider):
             response_size=len(response.body),
             headers=headers,
         )
-        yield item
